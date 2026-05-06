@@ -147,12 +147,14 @@ export default function Contact() {
 
           {/* ── Contact form ── */}
           <div className={styles.formWrap}>
+            {/* Dev warning — uncomment if you need to debug EmailJS setup
             {!emailjsConfigured && (
               <div className={styles.configWarning} role="alert">
                 ⚠️ <strong>Dev mode:</strong> Add EmailJS keys to your{' '}
                 <code>.env</code> file to enable form submission.
               </div>
             )}
+            */}
 
             {status === 'success' ? (
               <div className={styles.successMsg} role="status">
