@@ -1,0 +1,126 @@
+.footer {
+  background: var(--color-text);
+  color: #cbd5e1;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--sp-12) var(--sp-6);
+}
+
+/* ---- Top section ---- */
+.top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr;
+  gap: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #334155;
+}
+
+/* ---- Brand ---- */
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+.logo span:first-child {
+  font-size: 1.5rem;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+/* ---- Nav ---- */
+.navTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 0.875rem;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navLink {
+  font-size: 0.9375rem;
+  color: #cbd5e1;
+  transition: color var(--tx-fast);
+}
+.navLink:hover { color: #f8fafc; }
+
+/* ---- Contact ---- */
+.contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.contactItem {
+  font-size: 0.9375rem;
+  color: #cbd5e1;
+}
+
+.ctaBtn {
+  width: fit-content;
+}
+
+/* ---- Bottom bar ---- */
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.built {
+  font-size: 0.8125rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .top {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .inner { padding: var(--sp-10) var(--sp-4); }
+  .top { grid-template-columns: 1fr; gap: 1.75rem; }
+  .bottom { flex-direction: column; align-items: center; text-align: center; }
+}
