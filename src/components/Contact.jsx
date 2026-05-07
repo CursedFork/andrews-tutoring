@@ -16,9 +16,7 @@ const SUBJECTS = [
 
 const INIT = { name: '', email: '', phone: '', subject: '', message: '' }
 
-// Formspree endpoint — set VITE_FORMSPREE_URL in .env and in Vercel
-// Get your free endpoint at formspree.io (50 submissions/month free)
-const FORMSPREE_URL = import.meta.env.VITE_FORMSPREE_URL
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
 
 export default function Contact() {
   const [form,   setForm]   = useState(INIT)
@@ -44,10 +42,11 @@ export default function Contact() {
     setStatus('sending')
 
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
           name:    form.name.trim(),
           email:   form.email.trim(),
           phone:   form.phone.trim() || 'Not provided',
@@ -56,19 +55,19 @@ export default function Contact() {
         }),
       })
       const data = await res.json()
-      if (res.ok) {
+      if (data.success) {
         setStatus('success')
         setForm(INIT)
       } else {
-        throw new Error(data?.error || 'Submission failed')
+        throw new Error(data.message)
       }
     } catch (err) {
-      console.error('Formspree error:', err)
+      console.error('Web3Forms error:', err)
       setStatus('error')
     }
   }
 
-  const formConfigured = Boolean(FORMSPREE_URL)
+  const formConfigured = Boolean(WEB3FORMS_KEY)
 
   return (
     <section id="contact" className={styles.section}>
