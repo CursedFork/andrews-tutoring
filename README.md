@@ -17,7 +17,7 @@ A fully responsive, single-page React application built for a personal tutoring 
 - **Animated hero section** with floating subject cards
 - **Expandable subject cards** — accordion-style curriculum breakdowns for 8 subject areas, implemented with a CSS `grid-template-rows` transition (no JS animation libraries)
 - **Transparent pricing section** with individual rate cards and a group rates table
-- **Contact form** with full client-side validation and [Formspree](https://formspree.io) integration — no backend required
+- **Contact form** with full client-side validation and [Web3Forms](https://web3forms.com) integration — no backend required
 - **Calendly booking embed** with lazy-loaded script injection and a graceful fallback UI
 - **Mobile-first responsive design** across all breakpoints using CSS Grid and Flexbox
 - **CSS Modules** for scoped, collision-free styling with a shared design token system
@@ -32,7 +32,7 @@ A fully responsive, single-page React application built for a personal tutoring 
 | Framework | React 18 | Functional components + hooks throughout |
 | Build tool | Vite 5 | Fast HMR, ES module native, minimal config |
 | Styling | CSS Modules + CSS custom properties | Scoped styles, no runtime overhead, easy theming |
-| Form handling | Formspree | Zero-backend contact form, no vendor lock-in |
+| Form handling | Web3Forms | Zero-backend contact form, no vendor lock-in |
 | Booking | Calendly inline widget | Lazy-loaded, graceful fallback if unconfigured |
 | Deployment | Vercel | CI/CD on every push to `main`, free tier |
 
@@ -50,7 +50,7 @@ src/
 │   ├── Pricing.jsx         # Rate cards + group pricing table
 │   ├── Guitar.jsx          # Guitar lessons feature section
 │   ├── Booking.jsx         # Calendly embed with lazy script loading
-│   ├── Contact.jsx         # Validated contact form (Formspree)
+│   ├── Contact.jsx         # Validated contact form (Web3Forms)
 │   └── Footer.jsx
 ├── utils/
 │   └── validation.js       # Pure validation functions (XSS-safe, no deps)
@@ -75,7 +75,7 @@ npm install
 
 # Copy environment variables
 copy .env.example .env
-# Fill in VITE_FORMSPREE_URL and VITE_CALENDLY_URL in .env
+# Fill in VITE_WEB3FORMS_KEY and VITE_CALENDLY_URL in .env
 
 # Start dev server
 npm run dev
@@ -86,7 +86,7 @@ npm run dev
 
 | Variable | Required | Description |
 |---|---|---|
-| `VITE_FORMSPREE_URL` | Yes | Formspree endpoint for contact form |
+| `VITE_WEB3FORMS_KEY` | Yes | Web3Forms access key for contact form |
 | `VITE_CALENDLY_URL` | No | Calendly profile URL for booking embed |
 
 ---
