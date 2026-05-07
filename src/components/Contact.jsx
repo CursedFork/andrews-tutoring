@@ -11,6 +11,7 @@ const SUBJECTS = [
   'Computer Science (incl. AP)',
   'SAT Prep',
   'Guitar Lessons',
+  'Study Strategies',
   'Other / Not Sure',
 ]
 

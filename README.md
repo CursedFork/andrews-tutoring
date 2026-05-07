@@ -32,7 +32,7 @@ A fully responsive, single-page React application built for a personal tutoring 
 | Framework | React 18 | Functional components + hooks throughout |
 | Build tool | Vite 5 | Fast HMR, ES module native, minimal config |
 | Styling | CSS Modules + CSS custom properties | Scoped styles, no runtime overhead, easy theming |
-| Form handling | Web3Forms | Zero-backend contact form, no vendor lock-in |
+| Form handling | [Web3Forms](https://web3forms.com) | Zero-backend contact form, 250 submissions/month free |
 | Booking | Calendly inline widget | Lazy-loaded, graceful fallback if unconfigured |
 | Deployment | Vercel | CI/CD on every push to `main`, free tier |
 
