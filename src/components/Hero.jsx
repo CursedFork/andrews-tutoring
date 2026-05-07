@@ -2,7 +2,7 @@ import styles from './Hero.module.css'
 
 // Subject cards that float on the right side of the hero
 const FLOAT_CARDS = [
-  { emoji: '📐', label: 'Geometry'      },
+  { emoji: '➕', label: 'Algebra'       },
   { emoji: '📖', label: 'English'       },
   { emoji: '🔬', label: 'Science'       },
   { emoji: '🎸', label: 'Guitar'        },

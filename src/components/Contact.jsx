@@ -16,7 +16,9 @@ const SUBJECTS = [
 
 const INIT = { name: '', email: '', phone: '', subject: '', message: '' }
 
-const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
+// Formspree endpoint — set VITE_FORMSPREE_URL in .env and in Vercel
+// Get your free endpoint at formspree.io (50 submissions/month free)
+const FORMSPREE_URL = import.meta.env.VITE_FORMSPREE_URL
 
 export default function Contact() {
   const [form,   setForm]   = useState(INIT)
@@ -26,7 +28,6 @@ export default function Contact() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
-    // Clear the error for this field as the user types
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }))
   }
 
@@ -43,11 +44,10 @@ export default function Contact() {
     setStatus('sending')
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch(FORMSPREE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
           name:    form.name.trim(),
           email:   form.email.trim(),
           phone:   form.phone.trim() || 'Not provided',
@@ -56,19 +56,19 @@ export default function Contact() {
         }),
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.ok) {
         setStatus('success')
         setForm(INIT)
       } else {
-        throw new Error(data.message)
+        throw new Error(data?.error || 'Submission failed')
       }
     } catch (err) {
-      console.error('Web3Forms error:', err)
+      console.error('Formspree error:', err)
       setStatus('error')
     }
   }
 
-  const formConfigured = Boolean(WEB3FORMS_KEY)
+  const formConfigured = Boolean(FORMSPREE_URL)
 
   return (
     <section id="contact" className={styles.section}>
