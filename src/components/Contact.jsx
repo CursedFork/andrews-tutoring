@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import emailjs from '@emailjs/browser'
 import { validateContactForm } from '../utils/validation.js'
 import styles from './Contact.module.css'
 
@@ -17,10 +16,7 @@ const SUBJECTS = [
 
 const INIT = { name: '', email: '', phone: '', subject: '', message: '' }
 
-// EmailJS credentials come from .env (never hardcode these)
-const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID
-const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
 
 export default function Contact() {
   const [form,   setForm]   = useState(INIT)
@@ -39,7 +35,6 @@ export default function Contact() {
     const errs = validateContactForm(form)
     if (Object.keys(errs).length > 0) {
       setErrors(errs)
-      // Focus the first invalid field
       const firstErrField = Object.keys(errs)[0]
       document.getElementById(`cf-${firstErrField}`)?.focus()
       return
@@ -48,29 +43,32 @@ export default function Contact() {
     setStatus('sending')
 
     try {
-      // EmailJS sends your template with the form data as template variables.
-      // Template variable names must match your EmailJS template exactly.
-      await emailjs.send(
-        EJS_SERVICE,
-        EJS_TEMPLATE,
-        {
-          from_name: form.name.trim(),
-          from_email: form.email.trim(),
-          phone:    form.phone.trim() || 'Not provided',
-          subject:  form.subject,
-          message:  form.message.trim(),
-        },
-        { publicKey: EJS_KEY },
-      )
-      setStatus('success')
-      setForm(INIT)
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name:    form.name.trim(),
+          email:   form.email.trim(),
+          phone:   form.phone.trim() || 'Not provided',
+          subject: `Tutoring Inquiry: ${form.subject}`,
+          message: form.message.trim(),
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('success')
+        setForm(INIT)
+      } else {
+        throw new Error(data.message)
+      }
     } catch (err) {
-      console.error('EmailJS error:', err)
+      console.error('Web3Forms error:', err)
       setStatus('error')
     }
   }
 
-  const emailjsConfigured = Boolean(EJS_SERVICE && EJS_TEMPLATE && EJS_KEY)
+  const formConfigured = Boolean(WEB3FORMS_KEY)
 
   return (
     <section id="contact" className={styles.section}>
@@ -148,7 +146,7 @@ export default function Contact() {
           {/* ── Contact form ── */}
           <div className={styles.formWrap}>
             {/* Dev warning — uncomment if you need to debug EmailJS setup
-            {!emailjsConfigured && (
+            {!formConfigured && (
               <div className={styles.configWarning} role="alert">
                 ⚠️ <strong>Dev mode:</strong> Add EmailJS keys to your{' '}
                 <code>.env</code> file to enable form submission.
@@ -306,7 +304,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   className={`btn btn-primary ${styles.submitBtn}`}
-                  disabled={status === 'sending' || !emailjsConfigured}
+                  disabled={status === 'sending' || !formConfigured}
                 >
                   {status === 'sending' ? (
                     <>
